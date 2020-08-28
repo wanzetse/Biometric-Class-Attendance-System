@@ -57,9 +57,11 @@ create table unit (
 
 create table user (
   id                            integer auto_increment not null,
+  username                      varchar(255),
   email                         varchar(255),
   password                      varchar(255),
   type                          varchar(255),
+  constraint uq_user_username unique (username),
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id)
 );

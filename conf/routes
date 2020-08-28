@@ -3,13 +3,26 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /                             controllers.HomeController.index
 # An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
+GET     /count                        controllers.CountController.count
 # An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
+GET     /message                      controllers.AsyncController.message
 +nocsrf
-POST     /pr_file/                    controllers.HomeController.process_file(request:Request)
+POST      /pr_file/                    controllers.HomeController.process_file(request:Request)
+
+
+# Start Desktop Urls
++nocsrf
+POST    /desktop/account/login/          controllers.Desktop.login(request :Request)
+# End Desktop Urls
+
+
+# Start of Authentication urls
+GET     /account/register/admin/         controllers.AuthController.registerSystemAdmin(request:Request)
+
+POST    /account/register/admin/         controllers.AuthController.adminRegister(request:Request)
+# End of Authentication urls
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(file)

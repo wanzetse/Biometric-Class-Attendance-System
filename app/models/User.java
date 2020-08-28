@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
 
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 public class User extends Model {
     @Id
     private int id;
+    @Column(unique = true)
+    private String username;
     @Column(unique = true) @Constraints.Email
     private String email;
     private String password;
@@ -60,4 +63,6 @@ public class User extends Model {
     public void setType(String type) {
         this.type = type;
     }
+
+    public static Finder<Integer,User> finder=new Finder<>(User.class);
 }

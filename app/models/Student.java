@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.Column;
@@ -93,4 +94,6 @@ public class Student extends Model {
     public void setFinger_id(String finger_id) {
         this.finger_id = finger_id;
     }
+
+    public static Finder<Integer,Student> finder=new Finder<>(Student.class);
 }
