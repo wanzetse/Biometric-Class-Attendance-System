@@ -12,25 +12,29 @@
  <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="description" content="">
   <meta name="author" content="Wanzetse">
-  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-  <link rel="shortcut icon" href="@assetsFinder.path("images/favicon.png")">
+  <meta name="keyword" content="Laikipia University, Biometric class attendance, software">
+  <link rel="shortcut icon" href="@assetsFinder.path("img/favicon.ico")">
 
   <title>@title</title>
 
    <!-- Bootstrap CSS -->
 
-  <link href="@assetsFinder.path("css/bootstrap.min.css")" rel="stylesheet">
+  <link href="@assetsFinder.path("assets/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
    <!-- bootstrap theme -->
   <link href=" @assetsFinder.path("css/bootstrap-theme.css")" rel="stylesheet">
    <!--external css-->
    <!-- font icon -->
   <link href="@assetsFinder.path("css/elegant-icons-style.css")" rel="stylesheet" />
-  <link href="@assetsFinder.path("css/font-awesome.min.css")" rel="stylesheet" />
+  <link href="@assetsFinder.path("assets/font-awesome/css/font-awesome.min.css")" rel="stylesheet" />
    <!-- Custom styles -->
+
+  <link href="@assetsFinder.path("assets/bootstrap-table/bootstrap-table.min.css")" rel="stylesheet">
   <link href="@assetsFinder.path("css/style.css")" rel="stylesheet">
   <link href="@assetsFinder.path("css/style-responsive.css")" rel="stylesheet">
+
 
 
    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
@@ -46,18 +50,30 @@
 
 @content
 
- </body>
 
- <script src="@assetsFinder.path("js/jquery.js")"></script>
- <script src="@assetsFinder.path("js/bootstrap.min.js")"></script>
+
+ <script src="@assetsFinder.path("assets/jquery/jquery.min.js")"></script>
+ <script src="@assetsFinder.path("assets/popper.js/dist/umd/popper.min.js")"></script>
+ <script src="@assetsFinder.path("assets/bootstrap/js/bootstrap.min.js")"></script>
+
+ <script src="@assetsFinder.path("assets/bootstrap-table/bootstrap-table.min.js")" type="text/javascript"></script>
+ <script src="@assetsFinder.path("assets/bootstrap-table/bootstrap-table-locale-all.min.js")" type="text/javascript"></script>
+
+
+ <script src="@assetsFinder.path("assets/bootstrap/js/bootstrap.bundle.min.js")"></script>
   <!-- nicescroll -->
  <script src="@assetsFinder.path("js/jquery.scrollTo.min.js")"></script>
  <script src="@assetsFinder.path("js/jquery.nicescroll.js")" type="text/javascript"></script>
-  <!--custome script for all page-->
+  <!--custom script for all page-->
  <script type="text/javascript" src="@assetsFinder.path("js/jquery.validate.min.js")"></script>
 
   <!-- custom form validation script for this page-->
- <script src="@assetsFinder.path("js/form-validation-script.js")"></script>
+
 
  <script src="@assetsFinder.path("js/scripts.js")" type="text/javascript"></script>
+<script type="text/javascript">
+ $(".fixed-table-toolbar").css({"color":"red","left":"100%"});
+</script>
+ </body>
+
 </html>

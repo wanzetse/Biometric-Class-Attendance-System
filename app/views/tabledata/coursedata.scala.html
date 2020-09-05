@@ -1,0 +1,41 @@
+@(courseList:List[Course])
+<table class="table table-bordered" data-toggle="table"
+
+data-show-columns="true"
+data-advanced-search="true"
+data-locale="en-US"
+data-show-fullscreen="true"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Course Code</th>
+            <th data-sortable="true">Course Name</th>
+            <th > Actions </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(cs<-courseList) {
+
+
+            <tr>
+                <td>
+                @cs.getCourseCode
+                </td>
+                <td>@cs.getName</td>
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="@routes.CourseController.editCourse(cs.getCourseCode)"><i class="icon_pencil-edit"></i></a>
+                        <a class="btn btn-success" href="#"><i class="icon_info"></i></a>
+                        <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>

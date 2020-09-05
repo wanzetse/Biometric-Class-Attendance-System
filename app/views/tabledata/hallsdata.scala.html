@@ -1,0 +1,41 @@
+@(hallList:List[LectureHall])
+<table class="table table-bordered" data-toggle="table"
+
+data-show-columns="true"
+data-advanced-search="true"
+data-locale="en-US"
+data-show-fullscreen="true"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Room Name</th>
+            <th data-sortable="true">Block Name</th>
+            <th data-sortable="true">Max Capacity</th>
+            <th > Actions </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(hall<-hallList) {
+
+
+            <tr>
+                <td>@hall.getRoom_name</td>
+                <td>@hall.getBlock_name</td>
+                <td>@hall.getCapacity</td>
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="@routes.HallsController.editHall(hall.getRoom_name)"><i class="icon_pencil-edit"></i></a>
+                        <a class="btn btn-success" href="#"><i class="icon_info"></i></a>
+                        <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>

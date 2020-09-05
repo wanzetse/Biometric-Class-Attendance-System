@@ -1,0 +1,4 @@
+@(titles:List[java.lang.String],user:User,hallsList:java.util.List[LectureHall])(implicit assetsFinder: AssetsFinder)
+@pageViews.pageContainer(titles, user ){
+    @tabledata.hallsdata(hallsList)
+}

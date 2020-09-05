@@ -1,0 +1,48 @@
+@(titles:java.util.List[java.lang.String],user:User)(content:Html)(implicit assetsFinder: AssetsFinder)
+
+@main(titles.get(0)){
+    <!-- container section start -->
+    <section id="container" class="">
+            <!--header start-->
+
+        @_header(assetsFinder)
+        @_sidemenu(user)
+
+            <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">@titles.get(1)</h3>
+                        <ol class="breadcrumb">
+                            <li><i class="fa fa-home"></i><a href="@routes.HomeController.index()">Home</a></li>
+
+                        </ol>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                            @titles.get(2)
+                            </header>
+
+                            @content
+
+                        </section>
+                    </div>
+                </div>
+                    <!-- page end-->
+            </section>
+        </section>
+            <!--main content end-->
+        <div class="text-right">
+
+        </div>
+    </section>
+
+}
+
+

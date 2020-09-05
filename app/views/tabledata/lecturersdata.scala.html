@@ -1,0 +1,51 @@
+@(lecturerList:java.util.List[Lecturer])
+<table class="table table-bordered" data-toggle="table"
+
+data-show-columns="true"
+data-advanced-search="true"
+data-locale="en-US"
+data-show-fullscreen="true"
+>
+<thead>
+    <tr>
+        <th data-sortable="true">Title</th>
+        <th data-sortable="true">Name</th>
+        <th data-sortable="true">Department</th>
+        <th data-sortable="true">Phone</th>
+        <th data-sortable="true">Email</th>
+        <th data-sortable="true">Units</th>
+        <th data-sortable="true">Classes</th>
+        <th > Actions </th>
+
+
+    </tr>
+</thead>
+<tbody>
+    @for(lec<-lecturerList) {
+
+
+        <tr>
+            <td>@lec.getTitle()</td>
+            <td>@lec.fullName()</td>
+            <td>@lec.getDepartment()</td>
+            <td>@lec.getPhone()</td>
+            <td>@lec.getEmail()</td>
+            <td>@for(unit<-lec.getUnits()){
+                @unit.getName()<br>
+            }</td>
+            <td></td>
+
+
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="@routes.LecturersController.editLecturerForm(lec.getWork_id)"><i class="icon_pencil-edit"></i></a>
+                    <a class="btn btn-success" href="#"><i class="icon_info"></i></a>
+                    <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>
+                </div>
+            </td>
+
+        </tr>
+    }
+
+</tbody>
+</table>

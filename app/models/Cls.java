@@ -11,7 +11,7 @@ import java.util.Date;
 public class Cls extends Model {
 
     @Id
-    private int id;
+    private Integer id;
     @ManyToOne
     private Unit unit;
     private Date date;
@@ -22,7 +22,7 @@ public class Cls extends Model {
     private String start_time;
     private String end_time;
 
-    public Cls(int id, Unit unit, Date date,
+    public Cls(Integer id, Unit unit, Date date,
                Lecturer lecturer, LectureHall lectureHall,
                String duration, String start_time, String end_time) {
         this.id = id;
@@ -43,7 +43,7 @@ public class Cls extends Model {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

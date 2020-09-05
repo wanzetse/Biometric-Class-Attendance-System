@@ -1,0 +1,42 @@
+@(unitList:List[Unit])
+
+<table class="table table-bordered" data-toggle="table"
+
+data-show-columns="true"
+data-advanced-search="true"
+data-locale="en-US"
+data-show-fullscreen="true"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Unit Code</th>
+            <th data-sortable="true">Unit Name</th>
+            <th data-sortable="true">Lecturer</th>
+            <th > Actions </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(un<-unitList) {
+
+
+            <tr>
+                <td> @un.getUnitCode </td>
+                <td>@un.getName</td>
+                <td>@un.getLecturer.getTitle @un.getLecturer.fullName()</td>
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="@routes.UnitsController.editUnit(un.getUnitCode())"><i class="icon_pencil-edit"></i></a>
+                        <a class="btn btn-success" href="#"><i class="icon_info"></i></a>
+                        <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>

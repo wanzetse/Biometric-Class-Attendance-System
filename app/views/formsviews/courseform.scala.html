@@ -1,0 +1,31 @@
+@import views.html.helper.FieldConstructor
+@(titles:java.util.List[String],courseF:play.data.Form[Course],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+    @helper.form(action = routes.CourseController.add_EditCourseP(),Symbol("class")->"form-horizontal") {
+        @helper.CSRF.formField
+        <div hidden="hidden">
+            @helper.inputText(courseF("id"),Symbol("type")->"number")
+        </div>
+        @helper.inputText(courseF("courseCode"),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Course Code",
+            Symbol("_showConstraints")->false
+        )
+        @helper.inputText(courseF("name"),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Course Name",
+            Symbol("_showConstraints")->false
+        )
+
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+                type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+            </div>
+        </div>
+
+    }
+}

@@ -1,40 +1,105 @@
 package models;
 
+import io.ebean.Finder;
 import io.ebean.Model;
+import play.data.validation.Constraints;
+import play.data.validation.ValidationError;
 
 import javax.management.MalformedObjectNameException;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
-
+@Constraints.Validate
 @Entity
-public class Lecturer extends Model {
+public class Lecturer extends Model implements Constraints.Validatable<List<ValidationError>>{
     @Id
-    private int id;
-
+    private Integer id;
+    @Constraints.Required
+    @Constraints.MinLength(4)
+    @Column(unique = true)
     private String work_id;
+    @Constraints.Required
     private String first_name;
+    @Constraints.Required
     private String sur_name;
     private String last_name;
+    @Constraints.Email
+    @Constraints.Required
+    @Column(unique = true)
+    private String email;
+    private boolean departmentHead;
+    private Department department;
+    @Constraints.MinLength(10)
+    @Constraints.MaxLength(14)
+
+    private String phone;
+    @Constraints.Required
+    private String title;
     @OneToMany private List<Unit> units;
     @OneToMany private List<Cls> clsList;
 
-    public Lecturer(int id, String work_id, String first_name, String sur_name, String last_name) {
+    public Lecturer() {
+    }
+
+    public Lecturer(Integer id, @Constraints.Required @Constraints.MinLength(4) String work_id,
+                    String first_name, String sur_name, String last_name, @Constraints.Email String email,
+                    boolean departmentHead, Department department,
+                    @Constraints.MinLength(10) @Constraints.MaxLength(14) String phone,
+                    @Constraints.Required String title, List<Unit> units, List<Cls> clsList) {
         this.id = id;
         this.work_id = work_id;
         this.first_name = first_name;
         this.sur_name = sur_name;
         this.last_name = last_name;
+        this.email = email;
+        this.departmentHead = departmentHead;
+        this.department = department;
+        this.phone = phone;
+        this.title = title;
+        this.units = units;
+        this.clsList = clsList;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isDepartmentHead() {
+        return departmentHead;
+    }
+
+    public void setDepartmentHead(boolean departmentHead) {
+        this.departmentHead = departmentHead;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
+
     public int getId() {
+
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -66,6 +131,21 @@ public class Lecturer extends Model {
         return last_name;
     }
 
+    public String fullName(){
+        String lasname=last_name!=null ?last_name:"";
+        String surname=sur_name != null ?sur_name:"";
+        String fname= first_name != null ?first_name:"";
+        return fname+" "+surname+" "+lasname;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
@@ -85,4 +165,55 @@ public class Lecturer extends Model {
     public void setClsList(List<Cls> clsList) {
         this.clsList = clsList;
     }
+
+    public static Finder<Integer,Lecturer> finder=new Finder<>(Lecturer.class);
+
+    public static Map<String,String> options(){
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
+
+        // Get all categories from the DB and add to the options hash map
+        for (Lecturer c: Lecturer.finder.all()) {
+            options.put(c.getId()+"", c.fullName()+" ("+c.getWork_id()+")");
+        }
+        return options;
+    }
+
+    @Override
+    public List<ValidationError> validate() {
+        List<ValidationError> errors=new ArrayList<>();
+
+        if(id==null){
+            if(Lecturer.finder.query().where().ieq("work_id",work_id).exists()){
+                errors.add(new ValidationError("work_id","Work Id Already Exists"));
+            }
+            if(Lecturer.finder.query().where().ieq("email",email).exists()){
+                errors.add(new ValidationError("email","Email Already Used"));
+            }
+        }else{
+           Lecturer lecturer= Lecturer.finder.query().where().ieq("work_id",work_id).findOne();
+            if(lecturer.getId()!=id){
+
+                errors.add(new ValidationError("work_id","Work Id Already Exists"));
+            }
+            lecturer=Lecturer.finder.query().where().ieq("email",email).findOne();
+            if(lecturer.getId()!=id){
+                errors.add(new ValidationError("email","Email Already Used"));
+            }
+        }
+
+        return errors;
+    }
+
+    public static Map<String,String> titleOptions(){
+       LinkedHashMap<String,String> options=new LinkedHashMap<>();
+        options.put("Mr","Mr");
+        options.put("Mrs","Mrs");
+        options.put("Ms","Ms");
+        options.put("Dr","Dr");
+        options.put("Prof","Prof");
+
+
+        return options;
+    }
+
 }

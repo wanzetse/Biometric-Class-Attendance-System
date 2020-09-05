@@ -3,11 +3,9 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                             controllers.HomeController.index
+GET     /                             controllers.HomeController.index(request:Request)
 # An example controller showing how to use dependency injection
-GET     /count                        controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                      controllers.AsyncController.message
+
 +nocsrf
 POST      /pr_file/                    controllers.HomeController.process_file(request:Request)
 
@@ -15,14 +13,57 @@ POST      /pr_file/                    controllers.HomeController.process_file(r
 # Start Desktop Urls
 +nocsrf
 POST    /desktop/account/login/          controllers.Desktop.login(request :Request)
+
 # End Desktop Urls
 
 
 # Start of Authentication urls
-GET     /account/register/admin/         controllers.AuthController.registerSystemAdmin(request:Request)
+GET     /account/register/admin/          controllers.AuthController.registerSystemAdmin(request:Request)
+POST    /account/register/admin/          controllers.AuthController.adminRegister(request:Request)
+GET     /account/logout/                  controllers.AuthController.logout(request:Request)
+GET     /account/login/                   controllers.AuthController.login(request:Request)
+POST    /account/login/                   controllers.AuthController.loginP(request:Request)
 
-POST    /account/register/admin/         controllers.AuthController.adminRegister(request:Request)
 # End of Authentication urls
+
+# Start Of Lecturer urls
+
+GET   /admin/lecturer/add/                 controllers.LecturersController.createLecturerForm(request :Request)
+GET   /admin/lecturer/edit/:lec_id/        controllers.LecturersController.editLecturerForm(request :Request,lec_id:String)
+POST  /admin/lecturer/add/                 controllers.LecturersController.lecturerFormP(request :Request)
+
+# End Of Lecturer urls
+
+# Start of Student URls
+GET  /admin/students/                      controllers.StudentsController.adminIndex(request:Request)
+GET  /admin/students/add/                  controllers.StudentsController.add_EditStudent(request:Request)
+POST /admin/students/add/                  controllers.StudentsController.add_EditStudentP(request:Request)
+GET  /admin/students/edit/:regno/          controllers.StudentsController.editStudent(request:Request,regno:String)
+# End of Student URls
+
+
+# Start Of Course Urls
+GET    /admin/courses/                      controllers.CourseController.adminIndex(request:Request)
+GET    /admin/courses/add/                  controllers.CourseController.add_EditCourse(request:Request)
+POST   /admin/courses/add/                  controllers.CourseController.add_EditCourseP(request:Request)
+GET    /admin/courses/edit/:csinitials/     controllers.CourseController.editCourse(request:Request,csinitials:String)
+# End Of Course Urls
+
+
+# Start Of Unit Urls
+GET   /admin/units/                         controllers.UnitsController.adminIndex(request:Request)
+GET   /admin/units/add/                     controllers.UnitsController.add_EditUnit(request:Request)
+POST  /admin/units/add/                     controllers.UnitsController.add_EditUnitP(request:Request)
+GET   /admin/units/edit/:unitcode/          controllers.UnitsController.editUnit(request:Request,unitcode:String)
+# End Of Unit Urls
+
+
+# Start Of Hall Urls
+GET  /admin/halls/                         controllers.HallsController.adminIndex(request:Request)
+GET  /admin/halls/add/                     controllers.HallsController.add_EditHall(request:Request)
+GET  /admin/halls/edit/:hname/             controllers.HallsController.editHall(request:Request,hname:String)
+POST /admin/halls/add/                     controllers.HallsController.add_EditHallP(request:Request)
+# Start Of Hall Urls
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(file)

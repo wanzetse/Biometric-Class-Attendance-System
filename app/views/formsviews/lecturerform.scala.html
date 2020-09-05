@@ -1,0 +1,62 @@
+@import views.html.helper.FieldConstructor
+@import views.html.helper.options
+@(titles:java.util.List[String],lecF:play.data.Form[Lecturer],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+@helper.form(action = routes.LecturersController.lecturerFormP(),Symbol("class")->"form-horizontal"){
+
+    @helper.CSRF.formField
+    <div hidden="hidden">
+    @helper.inputText(lecF("id"),Symbol("type")->"number")
+    </div>
+    @helper.select(lecF("title"),
+        helper.options(Lecturer.titleOptions()),
+        Symbol("class")->"form-control",
+        Symbol("type")->"tel",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(lecF("work_id"),
+    Symbol("class")->"form-control",
+    Symbol("_label")->"Work Id",
+        Symbol("_showConstraints")->false
+    )
+
+    @helper.inputText(lecF("first_name"),
+        Symbol("_label")->"First Name",
+        Symbol("class")->"form-control",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(lecF("sur_name"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Sur Name",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(lecF("last_name"),
+        Symbol("_label")->"Last Name",
+        Symbol("class")->"form-control")
+    @helper.inputText(lecF("email"),
+        Symbol("class")->"form-control",
+        Symbol("type")->"email",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(lecF("phone"),
+        Symbol("class")->"form-control",
+        Symbol("type")->"tel",
+        Symbol("_showConstraints")->false
+    )
+    @helper.select(lecF("department"),
+        options(Department.options()),
+        Symbol("class")->"form-control"
+    )
+
+
+    <div class="form-group row">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+            type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+        </div>
+    </div>
+}
+}

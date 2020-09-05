@@ -1,0 +1,38 @@
+@import views.html.helper.FieldConstructor
+@(titles:java.util.List[String],hallF:play.data.Form[LectureHall],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+    @helper.form(action = routes.HallsController.add_EditHallP(),Symbol("class")->"form-horizontal") {
+        @helper.CSRF.formField
+        <div hidden="hidden">
+            @helper.inputText(hallF("id"),
+            Symbol("type")->"number"
+            )
+        </div>
+        @helper.inputText(hallF("room_name"),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Room Name",
+            Symbol("_showConstraints")->false
+        )
+        @helper.inputText(hallF("block_name"),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Block Name",
+            Symbol("_showConstraints")->false
+        )
+        @helper.inputText(hallF("capacity"),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Maximum Capacity",
+            Symbol("type")->"number",
+            Symbol("_showConstraints")->false
+        )
+
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+                type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+            </div>
+        </div>
+    }
+}

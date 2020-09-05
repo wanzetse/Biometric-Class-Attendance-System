@@ -1,0 +1,57 @@
+@import views.html.helper.FieldConstructor
+@(titles:java.util.List[String],stdF:play.data.Form[Student],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+@helper.form(action = routes.StudentsController.add_EditStudentP(),Symbol("class")->"form-horizontal"){
+    @helper.CSRF.formField
+    <div hidden="hidden">
+    @helper.inputText(stdF("id"),Symbol("type")->"number")
+    </div>
+    @helper.inputText(stdF("reg_no"),
+    Symbol("class")->"form-control",
+    Symbol("_label")->"Registration Number",
+        Symbol("_showConstraints")->false
+    )
+
+    @helper.inputText(stdF("first_name"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"First Name",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(stdF("sur_name"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Sur Name",
+        Symbol("_showConstraints")->false)
+    @helper.inputText(stdF("last_name"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Last Name",
+        Symbol("_showConstraints")->false)
+    @helper.inputText(stdF("year"),
+        Symbol("class")->"form-control",
+        Symbol("type")->"number",
+        Symbol("max")->"4",
+        Symbol("min")->"1",
+        Symbol("required")->"required",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(stdF("phone"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Phone",
+        Symbol("_showConstraints")->false
+    )
+    @helper.inputText(stdF("email"),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Email",
+        Symbol("_showConstraints")->false
+    )
+
+    <div class="form-group row">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+            type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+        </div>
+    </div>
+}
+}

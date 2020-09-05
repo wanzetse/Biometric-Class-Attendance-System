@@ -1,12 +1,21 @@
 
-@import forms.RegisterAdminForm
+
 @import views.html.helper.FieldConstructor
+@import forms.RegisterAdminForm
 @(message: String,formR:play.data.Form[RegisterAdminForm])( implicit assetsFinder: AssetsFinder,request: Http.Request,
         messages: play.i18n.Messages)
-    @implicitField=@{FieldConstructor(fieldConstructor.render)}
-@main(message){
-    @_header()
-    @_sidemenu()
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+    @main(message){
+    @_header(assetsFinder)
+        @if(User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne()!=null){
+
+    @_sidemenu(User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne())
+        }
+        @if(User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne()==null){
+
+    @_sidemenu(new User())
+        }
+
             <!-- container section start -->
 
             <section id="main-content">
@@ -15,7 +24,7 @@
                         <div class="col-lg-12">
                             <h3 class="page-header"><i class="fa fa-user"></i>System Deployment</h3>
                             <ol class="breadcrumb">
-                                <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+                                <li><i class="fa fa-home"></i><a href="@routes.HomeController.index()">Home</a></li>
                                 <li><i class="icon_document_alt"></i>Forms</li>
                                 <li><i class="fa fa-files-o"></i>Form Validation</li>
                             </ol>
@@ -50,7 +59,7 @@
 
                                             <div class="form-group">
                                                 <div class="col-lg-offset-2 col-lg-10">
-                                                    <button class="btn btn-success form-control" style="font-size: 16px;font: bolder"
+                                                    <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
                                                     type="submit">S&nbsp;&nbsp; a &nbsp;&nbsp; v &nbsp; e</button>
                                                 </div>
                                             </div>
@@ -65,15 +74,7 @@
             </section>
                 <!--main content end-->
             <div class="text-right">
-                <div class="credits">
-                        <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                </div>
+
             </div>
 
 }

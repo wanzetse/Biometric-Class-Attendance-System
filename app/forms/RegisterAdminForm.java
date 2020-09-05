@@ -40,7 +40,7 @@ public class RegisterAdminForm implements Constraints.Validatable<List<Validatio
             errors.add(new ValidationError("email","Email Already Exists"));
         }
         if(!password.equals(password2)){
-            errors.add(new ValidationError("password2","Passwords Do Not Match"));
+            errors.add(new ValidationError("password2","Passwords Did Not Match"));
         }
         if(errors.size()>0){
             errors.add(new ValidationError("","Failed Please Correct Errors Below"));

@@ -1,6 +1,7 @@
 package controllers;
 
 
+import models.User;
 import play.data.FormFactory;
 import play.libs.Files;
 import play.mvc.*;
@@ -9,6 +10,8 @@ import views.html.*;
 
 import javax.inject.Inject;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -31,10 +34,18 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() {
+    public Result index(Http.Request request) {
+        List<String> titles=new ArrayList<>();
+        titles.add("Laikipia University Portal");
+        titles.add("Lectures");
+        titles.add("List Of All Lectures");
+        User user=User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne();
+        if(user==null){
+            user=new User();
+        }
         return ok(
             index.render(
-                "Your new application is ready.",
+                titles,user,
                 assetsFinder
             ));
     }

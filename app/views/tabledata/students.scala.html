@@ -1,0 +1,45 @@
+@(students:java.util.List[Student])
+<table class="table table-bordered" data-toggle="table"
+
+data-show-columns="true"
+data-advanced-search="true"
+data-locale="en-US"
+data-show-fullscreen="true"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Reg No </th>
+            <th data-sortable="true">Name</th>
+            <th data-sortable="true"> Year </th>
+            <th data-sortable="true">Course</th>
+            <th > Actions </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(std<-students) {
+
+
+            <tr>
+                <td>@std.getReg_no()</td>
+
+                <td>@std.fullName()</td>
+
+                <td>@std.getYear()</td>
+                <td>@std.getCourse()</td>
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="@routes.StudentsController.editStudent(std.getReg_no().replaceAll("/","_"))"><i class="icon_pencil-edit"></i></a>
+                        <a class="btn btn-success" href="#"><i class="icon_info"></i></a>
+                        <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
