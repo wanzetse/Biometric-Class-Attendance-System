@@ -1,13 +1,12 @@
 package controllers;
 
 
+import controllers.Auth.Secured;
 import models.User;
 import play.data.FormFactory;
 import play.libs.Files;
 import play.mvc.*;
-
 import views.html.*;
-
 import javax.inject.Inject;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import java.util.List;
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
+@Security.Authenticated(Secured.class)
 public class HomeController extends Controller {
 
     private final AssetsFinder assetsFinder;

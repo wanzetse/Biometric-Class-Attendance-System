@@ -9,7 +9,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
 @Constraints.Validate
 @Entity
 public class Course extends Model implements Constraints.Validatable<List<ValidationError>> {
@@ -27,7 +30,7 @@ public Course(){
 
 }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -70,5 +73,13 @@ public Course(){
         }
 
         return errors;
+    }
+
+    public static Map<String,String> options(){
+        LinkedHashMap<String,String> options=new LinkedHashMap<>();
+        for(Course cs:finder.all()){
+            options.put(""+ cs.id,cs.name);
+        }
+        return  options;
     }
 }

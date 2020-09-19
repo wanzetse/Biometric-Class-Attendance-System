@@ -1,0 +1,32 @@
+@import views.html.helper.FieldConstructor
+@(titles:java.util.List[String],deptF:play.data.Form[Department],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+    @helper.form(action = routes.DepartmentController.add_EditDeptP(),
+        Symbol("class")->"form-horizontal") {
+        @helper.CSRF.formField
+        <div hidden="hidden">
+        @helper.inputText(deptF("id"), Symbol("type") -> "number")
+        </div>
+        @helper.inputText(deptF("name"),
+        Symbol("_label")->"Department Name",
+        Symbol("_showConstraints")->false,
+        Symbol("required")->"required",
+        Symbol("class")->"form-control"
+        )
+      @helper.select(deptF("departmentHead"),
+          helper.options(Lecturer.options()),
+          Symbol("_label")->"Department Head",
+          Symbol("class")->"form-control")
+
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+                type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+            </div>
+        </div>
+
+    }
+}

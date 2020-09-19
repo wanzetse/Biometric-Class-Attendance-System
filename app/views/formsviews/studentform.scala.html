@@ -46,6 +46,12 @@
         Symbol("_label")->"Email",
         Symbol("_showConstraints")->false
     )
+    @helper.select(stdF("course.id"),
+        helper.options(Course.options()),
+        Symbol("class")->"form-control",
+        Symbol("_label")->"Course",
+        Symbol("_showConstraints")->false
+    )
 
     <div class="form-group row">
         <div class="col-lg-offset-2 col-lg-10">

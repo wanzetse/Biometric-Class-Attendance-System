@@ -13,6 +13,8 @@ POST      /pr_file/                    controllers.HomeController.process_file(r
 # Start Desktop Urls
 +nocsrf
 POST    /desktop/account/login/          controllers.Desktop.login(request :Request)
++nocsrf
+PUT    /desktop/finger/register/          controllers.Desktop.fingerR(request :Request)
 
 # End Desktop Urls
 
@@ -64,6 +66,14 @@ GET  /admin/halls/add/                     controllers.HallsController.add_EditH
 GET  /admin/halls/edit/:hname/             controllers.HallsController.editHall(request:Request,hname:String)
 POST /admin/halls/add/                     controllers.HallsController.add_EditHallP(request:Request)
 # Start Of Hall Urls
+
+#Start Of Department Urls
+GET  /admin/departments/                    controllers.DepartmentController.adminIndex(request :Request)
+GET  /admin/departments/add/                controllers.DepartmentController.add_EditDepartment(request :Request)
+POST /admin/departments/add/                controllers.DepartmentController.add_EditDeptP(request :Request)
+GET  /admin/departments/edit/:course        controllers.DepartmentController.editDept(request :Request,course:String)
+#End Of Department Urls
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(file)
