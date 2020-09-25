@@ -179,4 +179,12 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
         }
         return errors;
     }
+    public static Student randomStudent(){
+        Student student=new Student();
+        String[] alphas={"B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"};
+        String[] vowels={"A","E","I","O","U"};
+
+
+        return student;
+    }
 }

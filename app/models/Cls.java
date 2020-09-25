@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.Entity;
@@ -7,7 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
-@Entity
+@Entity(name = "classes")
+
 public class Cls extends Model {
 
     @Id
@@ -17,6 +19,7 @@ public class Cls extends Model {
     private Date date;
     @ManyToOne
     private Lecturer lecturer;
+    @ManyToOne
     private LectureHall lectureHall;
     private String duration;
     private String start_time;
@@ -102,4 +105,6 @@ public class Cls extends Model {
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
     }
+
+    public static Finder<Integer,Cls> finder=new Finder<>(Cls.class);
 }

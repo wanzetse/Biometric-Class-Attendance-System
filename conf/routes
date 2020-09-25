@@ -11,6 +11,9 @@ POST      /pr_file/                    controllers.HomeController.process_file(r
 
 
 # Start Desktop Urls
+
+#Random Data
+GET      /desktop/random/data/          controllers.Desktop.randomData()
 +nocsrf
 POST    /desktop/account/login/          controllers.Desktop.login(request :Request)
 +nocsrf
