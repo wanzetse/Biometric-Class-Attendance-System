@@ -115,7 +115,13 @@ public class LecturersController extends Controller {
 
 public List<Unit> unitList(String email){
         List<Unit> units=new ArrayList<>();
-        
+
+        Lecturer lecturer=Lecturer.finder.query().where().ieq("email",email).findOne();
+        units=lecturer.getUnits();
+        if(units==null){
+            units=new ArrayList<>();
+        }
+
         return units;
 }
 }
