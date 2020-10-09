@@ -23,6 +23,9 @@ public class UserRegister implements Constraints.Validatable<List<ValidationErro
     @Constraints.MinLength(6) private String password2;
 
 
+    public UserRegister(){
+        
+    }
     public UserRegister(@Constraints.Email String email, @Constraints.MinLength(2) String user_id,
                         String destination, @Constraints.MinLength(5) String username,
                         @Constraints.MinLength(6) String password,
@@ -122,4 +125,5 @@ public class UserRegister implements Constraints.Validatable<List<ValidationErro
         }
         return errors;
     }
+//    public Li
 }

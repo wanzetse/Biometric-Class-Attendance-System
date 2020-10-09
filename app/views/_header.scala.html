@@ -1,11 +1,11 @@
-@(assetsFinder: AssetsFinder)
+@(assetsFinder: AssetsFinder,user:String)
 <header class="header dark-bg">
     <div class="toggle-nav">
         <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
     </div>
 
         <!--logo start-->
-    <a href="@routes.HomeController.index()" class="logo">@*Nice <span class="lite">Admin*@</span></a>
+    <a href="@routes.HomeController.index()" class="logo"></span></a>
         <!--logo end-->
 
     <div class="nav search-row" id="top_menu">
@@ -27,9 +27,9 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <span class="profile-ava">
-                        <img alt="" src="@assetsFinder.path("img/avatar1_small.jpg")">
+                        <img alt="">
                     </span>
-                    <span class="username">Jenifer Smith</span>
+                    <span class="username">@user</span>
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu extended logout">

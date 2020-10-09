@@ -6,7 +6,7 @@
         messages: play.i18n.Messages)
 @implicitField=@{FieldConstructor(_fieldConstructor.render)}
     @main(message){
-    @_header(assetsFinder)
+    @_header(assetsFinder,"")
         @if(User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne()!=null){
 
     @_sidemenu(User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne())

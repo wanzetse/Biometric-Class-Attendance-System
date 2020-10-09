@@ -92,4 +92,10 @@ public class UnitsController extends Controller {
         return ok(views.html.formsviews.unitsform.render(titles,unitForm,user,assetsFinder,
                 messagesApi.preferred(request),request));
     }
+
+    public Result lectureUnits(Http.Request request,String email){
+
+        return ok();
+    }
+
 }

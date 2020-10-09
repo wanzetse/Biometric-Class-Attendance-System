@@ -2,6 +2,7 @@ package controllers;
 
 import models.Cls;
 import models.Lecturer;
+import models.Unit;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
@@ -111,4 +112,10 @@ public class LecturersController extends Controller {
         }
         return  user;
     }
+
+public List<Unit> unitList(String email){
+        List<Unit> units=new ArrayList<>();
+        
+        return units;
+}
 }

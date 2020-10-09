@@ -91,14 +91,30 @@ public class AuthController extends Controller {
     }
 
     public Result registerUser(Http.Request request){
-        return ok();
+        Form<UserRegister> userRegisterForm=formFactory.form(UserRegister.class);
+        return ok(views.html.registerU.render(userRegisterForm,assetsFinder,request,messagesApi.preferred(request)));
     }
     public Result registerUserP(Http.Request request){
         Form<UserRegister> userRegisterForm=formFactory.form(UserRegister.class).bindFromRequest(request);
         if(userRegisterForm.hasErrors()){
+            System.out.println(userRegisterForm);
+            return badRequest(views.html.registerU.render(userRegisterForm,assetsFinder,request,messagesApi.preferred(request)));
+        }
+        UserRegister userRegister=userRegisterForm.get();
+        User user=new User();
+        user.setEmail(userRegister.getEmail());
+        user.setUsername(userRegister.getUsername());
+        user.setPassword(userRegister.getPassword());
+        String dest=userRegister.getDestination();
+        if(dest.equals("student")){
+            user.setStudent(true);
 
         }
-        return ok();
+        if(dest.equals("lecturer")){
+            user.setLecturer(true);
+        }
+        user.save();
+        return redirect(routes.AuthController.login());
     }
 }
 

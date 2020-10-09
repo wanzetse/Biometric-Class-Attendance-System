@@ -5,7 +5,7 @@
   <section id="container" class="">
     <!--header start-->
 
-    @_header(assetsFinder)
+    @_header(assetsFinder,user.getUsername )
     @_sidemenu(user)
 
     <!--main content start-->
@@ -29,9 +29,16 @@
                 @titles.get(2)
               </header>
 
-@if(user.isAdmin){
+  @if(user.isAdmin){
   @tabledata.lecturersdata(Lecturer.finder.all())
 }
+                @if(user.isLecturer){
+
+                }
+
+                @if(user.isStudent){
+
+                }
             </section>
           </div>
         </div>

@@ -1,0 +1,10 @@
+@(elements: helper.FieldElements)
+<p>
+<label class=" font-weight-bolder text-right" for="@elements.id">@elements.label </label>
+</p>
+<div class="input-group">
+    <span class="input-group-addon"><i class="icon_pencil"></i></span>
+    @elements.input
+    <span class="text-danger">@elements.errors.mkString("<br> ")</span>
+    <small class="form-text text-muted">@elements.infos.mkString(", ")</small>
+</div>

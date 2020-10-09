@@ -3,14 +3,14 @@
     <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
         <ul class="sidebar-menu">
-
+            <li class="">
+                <a class="" href="@routes.HomeController.index()">
+                    <i class="icon_house_alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
             @if(user.isAdmin){
-                <li class="">
-                    <a class="" href="@routes.HomeController.index()">
-                        <i class="icon_house_alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+
 
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
@@ -107,7 +107,22 @@
             }
 
             @if(user.isLecturer){
-
+                <li class="">
+                    <a class="" href="@routes.HomeController.index()">
+                        <i class="icon_pencil"></i>
+                        <span>Units</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <span>Classes</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="fa fa-eye" href="@routes.HallsController.adminIndex()">View</a></li>
+                        <li><a class="fa fa-plus" href="@routes.HallsController.add_EditHall()">Create</a></li>
+                    </ul>
+                </li>
             }
 
             @if(user.isStudent){

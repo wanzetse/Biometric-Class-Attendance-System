@@ -1,4 +1,7 @@
-@(formU:play.data.Form[forms.UserRegister],assetsFinder:AssetsFinder)(implicit request:Http.Request)
+@import views.html.helper.FieldConstructor
+@import views.html.helper.options
+@(formU:play.data.Form[forms.UserRegister],assetsFinder:AssetsFinder)(implicit request:Http.Request,messages: play.i18n.Messages)
+    @implicitField=@{FieldConstructor(_fieldConstructor2.render)}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,24 +41,66 @@
         @helper.form(action = routes.AuthController.registerUserP(),
             Symbol("class")->"login-form"){
             @helper.CSRF.formField
+
+
             <div class="login-wrap">
+                <p class="bg-info">Register</p>
 
                 <p class="login-img"><img src="@assetsFinder.path("img/favicon.ico")"></p>
-                <p class="bg-info">Register</p>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="icon_profile"></i></span>
-                    <input name="username" type="text" class="form-control" placeholder="Username" autofocus>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-                    <input name="password" type="password" class="form-control" placeholder="Password">
-                </div>
-                <label class="checkbox">
-                    <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
-                </label>
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-                <a href="#">
-                    <button class="btn btn-info btn-lg btn-block" type="button">Signup</button>
+
+
+               <p class="bg bg-info">Register As</p>
+                <label for="st">Student</label>
+                <input type="radio" name="destination" value="student" checked id="st">
+                &nbsp;
+                &nbsp;
+                <label for="lc">Staff</label>
+                <input type="radio" name="destination" value="lecturer" id="lc">
+
+<p></p>
+                @helper.inputText(formU("user_id"),
+                    Symbol("_label")->"RegNo/ Staff Id",
+                    Symbol("class")->"form-control",
+                    Symbol("required")->"required",
+                    Symbol("_showConstraints")->false,
+                    Symbol("placeholder")->"Staff Id / Student Regno"
+                )
+                @helper.inputText(formU("email"),
+                    Symbol("_label")->"Email",
+                    Symbol("class")->"form-control",
+                    Symbol("required")->"required",
+                    Symbol("type")->"email",
+                    Symbol("_showConstraints")->false,
+                    Symbol("placeholder")->"Email"
+                )
+                @helper.inputText(formU("username"),
+                    Symbol("_label")->"Username",
+                    Symbol("class")->"form-control",
+                    Symbol("minlength")->"5",
+                    Symbol("required")->"required",
+                    Symbol("_showConstraints")->false,
+                    Symbol("placeholder")->"Username"
+                )
+                @helper.inputPassword(formU("password"),
+                    Symbol("_label")->"Password",
+                    Symbol("class")->"form-control",
+                    Symbol("required")->"required",
+                    Symbol("minlength")->"6",
+                    Symbol("_showConstraints")->false,
+                    Symbol("placeholder")->"Password"
+                )
+                @helper.inputPassword(formU("password2"),
+                    Symbol("_label")->"Confirm Password",
+                    Symbol("class")->"form-control",
+                    Symbol("required")->"required",
+                    Symbol("minlength")->"6",
+                    Symbol("_showConstraints")->false,
+                    Symbol("placeholder")->"Confirm Password"
+                )
+
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign Up</button>
+                <a href="@routes.AuthController.login()">
+                    <button class="btn btn-info btn-lg btn-block" type="button">Login</button>
                 </a>
             </div>
         }
