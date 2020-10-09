@@ -1,0 +1,69 @@
+@(formU:play.data.Form[forms.UserRegister],assetsFinder:AssetsFinder)(implicit request:Http.Request)
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="@assetsFinder.path("img/favicon.ico")">
+
+        <title>Login | Laikipia University Portal </title>
+
+            <!-- Bootstrap CSS -->
+
+        <link href="@assetsFinder.path("css/font-awesome.css")" rel="stylesheet">
+            <!-- bootstrap theme -->
+        <link href="@assetsFinder.path("css/bootstrap-theme.css")" rel="stylesheet">
+            <!--external css-->
+            <!-- font icon -->
+        <link href="@assetsFinder.path("css/elegant-icons-style.css")" rel="stylesheet" />
+        <link href="@assetsFinder.path("css/font-awesome.css")" rel="stylesheet" />
+            <!-- Custom styles -->
+        <link href="@assetsFinder.path("css/style.css")" rel="stylesheet">
+        <link href="@assetsFinder.path("css/style-responsive.css")" rel="stylesheet" />
+
+            <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+            <!--[if lt IE 9]>
+    <script src="@assetsFinder.path("js/html5shiv.js")"></script>
+    <script src="@assetsFinder.path("js/respond.min.js")"></script>
+        <![endif]-->
+
+
+    </head>
+
+    <body class="login-img3-body">
+
+        <div class="container">
+        @helper.form(action = routes.AuthController.registerUserP(),
+            Symbol("class")->"login-form"){
+            @helper.CSRF.formField
+            <div class="login-wrap">
+
+                <p class="login-img"><img src="@assetsFinder.path("img/favicon.ico")"></p>
+                <p class="bg-info">Register</p>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon_profile"></i></span>
+                    <input name="username" type="text" class="form-control" placeholder="Username" autofocus>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                    <input name="password" type="password" class="form-control" placeholder="Password">
+                </div>
+                <label class="checkbox">
+                    <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
+                </label>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                <a href="#">
+                    <button class="btn btn-info btn-lg btn-block" type="button">Signup</button>
+                </a>
+            </div>
+        }
+
+        </div>
+
+
+
+    </body>
+
+</html>

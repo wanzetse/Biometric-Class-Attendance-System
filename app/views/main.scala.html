@@ -34,6 +34,9 @@
   <link href="@assetsFinder.path("assets/bootstrap-table/bootstrap-table.min.css")" rel="stylesheet">
   <link href="@assetsFinder.path("css/style.css")" rel="stylesheet">
   <link href="@assetsFinder.path("css/style-responsive.css")" rel="stylesheet">
+  <link href="@assetsFinder.path("assets/DataTables/datatables.min.css")" rel="stylesheet">
+
+
 
 
 
@@ -55,10 +58,7 @@
  <script src="@assetsFinder.path("assets/jquery/jquery.min.js")"></script>
  <script src="@assetsFinder.path("assets/popper.js/dist/umd/popper.min.js")"></script>
  <script src="@assetsFinder.path("assets/bootstrap/js/bootstrap.min.js")"></script>
-
- <script src="@assetsFinder.path("assets/bootstrap-table/bootstrap-table.min.js")" type="text/javascript"></script>
- <script src="@assetsFinder.path("assets/bootstrap-table/bootstrap-table-locale-all.min.js")" type="text/javascript"></script>
-
+ <script src="@assetsFinder.path("assets/DataTables/datatables.min.js")"></script>
 
  <script src="@assetsFinder.path("assets/bootstrap/js/bootstrap.bundle.min.js")"></script>
   <!-- nicescroll -->
@@ -71,9 +71,15 @@
 
 
  <script src="@assetsFinder.path("js/scripts.js")" type="text/javascript"></script>
-<script type="text/javascript">
- $(".fixed-table-toolbar").css({"color":"red","left":"100%"});
-</script>
+
+
+  <script type="text/javascript">
+          $(document).ready(function() {
+           $('#datas').DataTable();
+          });
+
+  </script>
+
  </body>
 
 </html>

@@ -42,6 +42,7 @@ create table lecturer (
   last_name                     varchar(255),
   email                         varchar(255),
   department_head               tinyint(1) default 0 not null,
+  department_id                 integer,
   phone                         varchar(255),
   title                         varchar(255),
   constraint uq_lecturer_work_id unique (work_id),
@@ -89,10 +90,10 @@ create table user (
 create table cls (
   id                            integer auto_increment not null,
   unit_id                       integer,
-  date                          datetime(6),
+  date                          varchar(255),
   lecturer_id                   integer,
   lecture_hall_id               integer,
-  duration                      varchar(255),
+  duration                      double not null,
   start_time                    varchar(255),
   end_time                      varchar(255),
   constraint pk_cls primary key (id)
@@ -103,6 +104,9 @@ alter table attendance add constraint fk_attendance_cls_id foreign key (cls_id) 
 
 create index ix_attendance_student_id on attendance (student_id);
 alter table attendance add constraint fk_attendance_student_id foreign key (student_id) references student (id) on delete restrict on update restrict;
+
+create index ix_lecturer_department_id on lecturer (department_id);
+alter table lecturer add constraint fk_lecturer_department_id foreign key (department_id) references department (id) on delete restrict on update restrict;
 
 create index ix_student_course_id on student (course_id);
 alter table student add constraint fk_student_course_id foreign key (course_id) references course (id) on delete restrict on update restrict;
@@ -127,6 +131,9 @@ drop index ix_attendance_cls_id on attendance;
 
 alter table attendance drop foreign key fk_attendance_student_id;
 drop index ix_attendance_student_id on attendance;
+
+alter table lecturer drop foreign key fk_lecturer_department_id;
+drop index ix_lecturer_department_id on lecturer;
 
 alter table student drop foreign key fk_student_course_id;
 drop index ix_student_course_id on student;

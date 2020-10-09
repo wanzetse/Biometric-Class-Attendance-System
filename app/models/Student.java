@@ -1,6 +1,10 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.machinezoo.sourceafis.FingerprintImage;
+import com.machinezoo.sourceafis.FingerprintMatcher;
 import com.machinezoo.sourceafis.FingerprintTemplate;
+import controllers.testing.DummyStrings;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
@@ -10,6 +14,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,37 +26,20 @@ import java.util.List;
 public class Student extends Model implements Constraints.Validatable<List<ValidationError>>{
 
 
-    @Id
-    private Integer id;
-    @Column(unique = true)
-    @Constraints.Required
-    @Constraints.MinLength(13)
-    @Constraints.MaxLength(18)
-    private String reg_no;
-    @Constraints.Required
-    @Constraints.MinLength(2)
-    private String first_name;
-    @Constraints.Required
-    @Constraints.MinLength(2)
-    private String sur_name;
-    @Column(nullable = true)
-    private  String last_name;
+    @Id private Integer id;
+    @Column(unique = true) @Constraints.Required @Constraints.MinLength(13) @Constraints.MaxLength(18) private String reg_no;
+    @Constraints.Required @Constraints.MinLength(2) private String first_name;
+    @Constraints.Required @Constraints.MinLength(2) private String sur_name;
+    @Column(nullable = true) private  String last_name;
 
-    @Constraints.Min(1)
-    @Constraints.Max(4)
-    private int year;
+    @Constraints.Min(1) @Constraints.Max(4) private int year;
 
-    @Constraints.Email
-    @Constraints.Required
-    private String email;
-    @Constraints.Required
-    private String phone;
-    @ManyToOne
-    @Column(nullable = true)
-    private Course course;
-    @Column(nullable = true)
-    private String finger_id;
-    private FingerprintTemplate fingerprintTemplate;
+    @Constraints.Email @Constraints.Required private String email;
+    @Constraints.Required private String phone;
+
+    @JsonIgnore @ManyToOne @Column(nullable = true) private Course course;
+    @Column(nullable = true) private String finger_id;
+    @JsonIgnore private FingerprintTemplate fingerprintTemplate;
 
 
 
@@ -181,10 +171,76 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
     }
     public static Student randomStudent(){
         Student student=new Student();
-        String[] alphas={"B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"};
-        String[] vowels={"A","E","I","O","U"};
+        DummyStrings dms=new DummyStrings();
+        student.setFirst_name(dms.getName());
+        student.setSur_name(dms.getName());
+        student.setLast_name(dms.getName());
+        String[] names={student.getFirst_name(),student.getSur_name(),student.getLast_name()};
+        student.setEmail(dms.getEmail(names));
+        student.setPhone(dms.getPhone());
+        student.setReg_no(dms.getRegNo());
+        student.setYear(dms.year());
+        student.setCourse(Course.randomCourse());
+        if(student.validate().size()<1){
+            student.save();
+            return student;
+        }
 
 
-        return student;
+
+        return null;
+    }
+
+    public static Student findByFingerPrint(FingerprintTemplate template){
+     try{
+         List<Student> studentList=new ArrayList<>();
+         for(Student st:Student.finder.all()){
+             if(st.getFinger_id()!=null){
+                 st.setFingerprintTemplate(fingerprintTemplate("fingers\\"+st.getFinger_id()));
+                 studentList.add(st);
+
+             }
+
+         }
+
+         FingerprintMatcher matcher = new FingerprintMatcher().index(template);
+         double high = 0;
+         Student match=null;
+         for(Student std:studentList){
+             double score = matcher.match(std.getFingerprintTemplate());
+             System.out.println("score: "+score);
+             if (score > high) {
+                 high = score;
+                 match = std;
+             }
+
+         }
+         double thresh=30;
+         return high >= thresh ? match : null;
+
+     }catch (Exception e){
+         System.out.println(e.getMessage());
+         return new Student();
+     }
+    }
+
+    public static FingerprintTemplate fingerprintTemplate(String image) {
+        try {
+            byte[] probeImage = Files.readAllBytes(Paths.get(image));
+            FingerprintTemplate probe = new FingerprintTemplate(
+                    new FingerprintImage()
+                            .dpi(500)
+                            .decode(probeImage));
+            return probe;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return  "("+reg_no+") "+ fullName();
     }
 }

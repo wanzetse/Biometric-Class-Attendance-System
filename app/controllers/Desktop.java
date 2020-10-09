@@ -1,9 +1,6 @@
 package controllers;
 
-
-import controllers.testing.DummyStrings;
-import models.Student;
-import models.User;
+import models.*;
 import modules.HashP;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -17,7 +14,9 @@ import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -37,60 +36,69 @@ public class Desktop extends Controller {
         Map<String,String> response=new HashMap<>();
         User user= User.finder.query().where().ieq("username",username).findOne();
         if(user==null){
-            response.put("response","error");
-            response.put("message","Authentication failure\n Wrong username or Password");
-            return ok(Json.toJson(response));
+            return ok("Authentication failure\n Wrong username or Password").withHeader("response","error");
         }
-        if(!HashP.checkP(password,user.getPassword())){
-            response.put("response","error");
-            response.put("message","Authentication failure\n Wrong username or Password");
-            return ok(Json.toJson(response));
+       else  if(!HashP.checkP(password,user.getPassword())){
+
+            return ok("Authentication failure\n Wrong username or Password").withHeader("response","error");
+
         }
-        if(user.isStudent()){
+       else if(user.isStudent()){
             response.put("response","error");
             response.put("message","Unauthorised");
-            return ok(Json.toJson(response));
+            return ok("Authentication failure\n Wrong username or Password")
+                    .withHeader("response","error");
         }
-
-        String user_type=user.isAdmin()?"admin":"lecturer";
-        response.put("response","success");
-        response.put("message","Login Success");
-        response.put("user",""+user.getId());
-        return ok(Json.toJson(response)).withHeader("user",user.getId()+"").withHeader("user-type",user_type);
-    }
+        else if(user.isLecturer()){
+            Lecturer lecturer=Lecturer.finder.query().where().eq("email",user.getEmail()).findOne();
+            return ok("Login Success").withHeader("user-type","lecturer")
+                    .withHeader("lec_id",""+lecturer.getId())
+                    .withHeader("response","success");
+        }
+        else{
+            return  ok("Login Success").withHeader("response","success")
+                    .withHeader("user-type","admin")
+                    ;
+        }
+ }
 
     public Result fingerR(Http.Request request){
-        Map<String, String> response=new HashMap<>();
+
       try {
           File file=request.body().asRaw().asFile();
           String filename=request.header("file-name").get();
           String student_reg=request.header("student").get();
-          int user_id=Integer.parseInt(request.header("user").get());
-          User user=User.finder.byId(user_id);
-          if(user.isAdmin()){
+
+
               Student student =Student.finder.query().where().ieq("reg_no",student_reg).findOne();
               FileInputStream fileInputStream=new FileInputStream(file);
               Files.copy(fileInputStream, Paths.get("fingers\\"+filename), StandardCopyOption.REPLACE_EXISTING);
-              student.setFinger_id(filename);
-              student.update();
-              response.put("response","success");
-              response.put("message","Student finger Print Saved Successfully");
-              return ok(Json.toJson(response));
-          }
-          response.put("response","error");
-          response.put("message","System Could Not Authenticate if you could do that");
+              if(Student.findByFingerPrint(
+                      Student.fingerprintTemplate("fingers\\"+filename))==null){
+                  student.setFinger_id(filename);
+                  student.update();
+                  return ok("Student Finger Print SaveD Successfully").withHeader("response","success");
+
+              }else {
+                  File file1=new File("fingers\\"+filename);
+                  file1.delete();
+                  return ok("Finger Print Already Registered").withHeader("response","error");
+
+              }
+
+
+
+
 
       }catch (Exception e){
           e.printStackTrace();
-          response.put("response","error");
-          response.put("message",e.getMessage());
-          return ok(Json.toJson(response)).withHeader("error",e.getMessage());
+
+          return ok(e.getMessage()).withHeader("response","error");
 
 
       }
 
 
-        return ok("Tried to save a file");
     }
 
     public CompletionStage<Result> noFingerPrintStudents(){
@@ -105,12 +113,52 @@ public class Desktop extends Controller {
     }
 
    public CompletionStage<Result> randomData(){
-       DummyStrings dms=new DummyStrings();
-       StringBuilder user=new StringBuilder();
-       for(int i =0;i<10000;i++){
-           user.append("<p>"+i+" "+dms.getName()+": "+dms.getPhone()+"</p>\n\n");
+
+       System.out.println("");
+       List<Student> students=new ArrayList<>();
+       int i = 0;
+       for(;;){
+           Student student=Student.randomStudent();
+           if(student!=null){
+               students.add(student);
+               i+=1;
+               System.out.println(i+"\t"+student);
+           }
+           if(i>=100){
+               break;
+           }
+
+
        }
-        return CompletableFuture.completedFuture(ok(user.toString()).as("text/html"));
+
+        return CompletableFuture.completedFuture(ok(Json.toJson(students)));
    }
+
+   public CompletionStage<Result> tobeRegisteredStudents(Http.Request request){
+
+
+        StringBuilder students=new StringBuilder();
+        List<Student> studentList=new ArrayList<>();
+        try {
+            String exp=request.header("exp").get();
+            String q=request.header("q").get();
+            System.out.println(exp);
+            if (q.equals("registered")) {
+                studentList = Student.finder.query().where().isNotNull("finger_id").findList();
+            } else if (q.equals("non-registered")) {
+                studentList = Student.finder.query().where().isNull("finger_id")
+                        .findList();
+            }
+            for (Student student : studentList) {
+                if (student.toString().toLowerCase().contains(exp.toLowerCase())) {
+                    students.append(student.getReg_no() + "\t" + student.fullName() + "\n");
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return CompletableFuture.completedFuture(ok(students.toString()));
+   }
+
 
 }

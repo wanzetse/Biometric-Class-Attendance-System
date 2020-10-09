@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import controllers.testing.DummyStrings;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
@@ -12,31 +14,29 @@ import java.util.*;
 @Constraints.Validate
 @Entity
 public class Lecturer extends Model implements Constraints.Validatable<List<ValidationError>>{
-    @Id
-    private Integer id;
-    @Constraints.Required
-    @Constraints.MinLength(4)
-    @Column(unique = true)
-    private String work_id;
-    @Constraints.Required
-    private String first_name;
-    @Constraints.Required
-    private String sur_name;
-    private String last_name;
-    @Constraints.Email
-    @Constraints.Required
-    @Column(unique = true)
-    private String email;
-    private boolean departmentHead;
-    private Department department;
-    @Constraints.MinLength(10)
-    @Constraints.MaxLength(14)
+    @Id private Integer id;
 
-    private String phone;
-    @Constraints.Required
-    private String title;
-    @OneToMany private List<Unit> units;
-    @OneToMany private List<Cls> clsList;
+    @Constraints.Required @Constraints.MinLength(4) @Column(unique = true) private String work_id;
+
+    @Constraints.Required private String first_name;
+
+    @Constraints.Required private String sur_name;
+
+    private String last_name;
+
+    @Constraints.Email @Constraints.Required @Column(unique = true) private String email;
+
+    private boolean departmentHead;
+
+    @JsonIgnore  @ManyToOne private Department department;
+
+    @Constraints.MinLength(10) @Constraints.MaxLength(14) private String phone;
+
+    @Constraints.Required private String title;
+
+    @JsonIgnore  @OneToMany private List<Unit> units;
+
+    @JsonIgnore @OneToMany private List<Cls> clsList;
 
     public Lecturer() {
     }
@@ -214,6 +214,20 @@ public class Lecturer extends Model implements Constraints.Validatable<List<Vali
 
 
         return options;
+    }
+
+    public static Lecturer randomLecturer(){
+        DummyStrings dms=new DummyStrings();
+        Lecturer lecturer=new Lecturer();
+        lecturer.setFirst_name(dms.getName());
+        lecturer.setSur_name(dms.getName());
+        lecturer.setLast_name(dms.getName());
+        String[] names={lecturer.getFirst_name(),lecturer.getSur_name(),lecturer.getLast_name()};
+        lecturer.setEmail(dms.getEmail(names));
+        lecturer.setWork_id(dms.getWorkId());
+        lecturer.setPhone(dms.getPhone());
+        lecturer.setTitle(dms.getTitle());
+        return lecturer;
     }
 
 }

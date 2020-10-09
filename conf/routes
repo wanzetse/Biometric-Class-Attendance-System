@@ -13,17 +13,23 @@ POST      /pr_file/                    controllers.HomeController.process_file(r
 # Start Desktop Urls
 
 #Random Data
-GET      /desktop/random/data/          controllers.Desktop.randomData()
+GET     /desktop/random/data/           controllers.Desktop.randomData()
+
+GET     /desktop/students/              controllers.Desktop.tobeRegisteredStudents(request:Request)
 +nocsrf
-POST    /desktop/account/login/          controllers.Desktop.login(request :Request)
+POST    /desktop/account/login/         controllers.Desktop.login(request :Request)
 +nocsrf
-PUT    /desktop/finger/register/          controllers.Desktop.fingerR(request :Request)
+PUT     /desktop/finger/register/       controllers.Desktop.fingerR(request :Request)
++nocsrf
+PUT     /desktop/finger/attend/         controllers.AttendanceController.attendClass(request:Request)
 
 # End Desktop Urls
 
 
 # Start of Authentication urls
 GET     /account/register/admin/          controllers.AuthController.registerSystemAdmin(request:Request)
+GET     /account/register/user/          controllers.AuthController.registerUser(request:Request)
+POST     /account/register/user/          controllers.AuthController.registerUserP(request:Request)
 POST    /account/register/admin/          controllers.AuthController.adminRegister(request:Request)
 GET     /account/logout/                  controllers.AuthController.logout(request:Request)
 GET     /account/login/                   controllers.AuthController.login(request:Request)

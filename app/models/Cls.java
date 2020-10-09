@@ -16,33 +16,22 @@ public class Cls extends Model {
     private Integer id;
     @ManyToOne
     private Unit unit;
-    private Date date;
+    private String date;
     @ManyToOne
     private Lecturer lecturer;
     @ManyToOne
     private LectureHall lectureHall;
-    private String duration;
+    private double duration;
     private String start_time;
     private String end_time;
 
-    public Cls(Integer id, Unit unit, Date date,
-               Lecturer lecturer, LectureHall lectureHall,
-               String duration, String start_time, String end_time) {
-        this.id = id;
-        this.unit = unit;
-        this.date = date;
-        this.lecturer = lecturer;
-        this.lectureHall = lectureHall;
-        this.duration = duration;
-        this.start_time = start_time;
-        this.end_time = end_time;
-    }
+
 
     public Cls(){
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -58,11 +47,11 @@ public class Cls extends Model {
         this.unit = unit;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -82,11 +71,11 @@ public class Cls extends Model {
         this.lectureHall = lectureHall;
     }
 
-    public String getDuration() {
+    public double getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 

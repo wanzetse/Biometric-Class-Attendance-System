@@ -32,8 +32,9 @@ public class StudentsController extends Controller {
         List<String> titles=new ArrayList<>();
         titles.add("Admin | Laikipia University Portal | Students List ");
         titles.add("Students");
-        titles.add("List Of All Students");
         List<Student> studentList=Student.finder.all();
+        titles.add(studentList.size()+" Registered Students");
+
         return ok(views.html.pageViews.studentlistview.render(titles,LecturersController.sessionUser(request),studentList,assetsFinder));
 
     }

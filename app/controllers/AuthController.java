@@ -1,6 +1,7 @@
 package controllers;
 
 import forms.RegisterAdminForm;
+import forms.UserRegister;
 import models.User;
 import modules.HashP;
 import play.data.DynamicForm;
@@ -88,4 +89,16 @@ public class AuthController extends Controller {
 
         return ok("");
     }
+
+    public Result registerUser(Http.Request request){
+        return ok();
+    }
+    public Result registerUserP(Http.Request request){
+        Form<UserRegister> userRegisterForm=formFactory.form(UserRegister.class).bindFromRequest(request);
+        if(userRegisterForm.hasErrors()){
+
+        }
+        return ok();
+    }
 }
+

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import controllers.testing.DummyStrings;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
@@ -10,19 +12,13 @@ import java.util.List;
 @Constraints.Validate
 @Entity
 public class Unit  extends Model implements Constraints.Validatable<List<ValidationError>> {
-    @Id
-    private Integer id;
-    @Constraints.Required
-    @Constraints.MinLength(4)
-    @Column(unique = true)
-    private String unitCode;
-    @Constraints.Required
-    @Constraints.MinLength(5)
-    private String name;
-    @Constraints.Required
-    @ManyToOne
-    private Lecturer lecturer;
+    @Id private Integer id;
 
+    @Constraints.Required @Constraints.MinLength(4) @Column(unique = true) private String unitCode;
+
+    @Constraints.Required @Constraints.MinLength(5) private String name;
+
+    @JsonIgnore @Constraints.Required @ManyToOne private Lecturer lecturer;
 
     public Unit(){
 
@@ -79,5 +75,13 @@ public class Unit  extends Model implements Constraints.Validatable<List<Validat
         }
 
         return errors;
+    }
+
+    public static Unit randomUnit(){
+        Unit unit=new Unit();
+        DummyStrings dms=new DummyStrings();
+        unit.setUnitCode(dms.getUnitCode());
+        unit.setName("");
+        return unit;
     }
 }

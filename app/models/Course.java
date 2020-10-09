@@ -82,4 +82,16 @@ public Course(){
         }
         return  options;
     }
+
+    public static Course randomCourse(){
+        Course course=finder.query().findOne();
+        if(course==null){
+            course=new Course();
+            course.setName("Bsc Computer Science");
+            course.setCourseCode("Bsc Cs");
+            course.save();
+        }
+
+        return course;
+    }
 }

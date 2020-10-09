@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Cls;
 import models.Lecturer;
 import models.User;
 import play.data.Form;
@@ -11,10 +12,11 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class LecturersController extends Controller {
     private final FormFactory formFactory;
@@ -76,6 +78,30 @@ public class LecturersController extends Controller {
         flash.put("success","Lecturer Saved Successfully");
         return ok(views.html.formsviews.lecturerform.render(titles,lecturerForm,sessionUser(request),
                 assetsFinder,messagesApi.preferred(request),request)).withFlash(flash);
+    }
+
+    public CompletionStage<Result> currentClass(Http.Request request,String lec_id){
+        try{
+      Lecturer lecturer=Lecturer.finder.byId(Integer.parseInt(lec_id));
+      Date today=new Date();
+        DateFormat dateFormat=new SimpleDateFormat("E, dd MMM yyyy");
+        String date=dateFormat.format(today);
+      List<Cls>  classes=Cls.finder.query().where().eq("lecturer",lecturer).findList();
+      for(Cls cl:classes){
+        String classDate=cl.getDate();
+        if(classDate.equals(date)){
+            String starttime=cl.getStart_time();
+            DateFormat format=new SimpleDateFormat("HH:mm:ss");
+            Date dt=format.parse(starttime);
+
+
+            String endtime=cl.getEnd_time();
+
+        }
+      }}catch (Exception e){
+            return CompletableFuture.completedFuture(ok(""));
+        }
+      return CompletableFuture.completedFuture(ok(""));
     }
 
     public static User sessionUser(Http.Request request){
