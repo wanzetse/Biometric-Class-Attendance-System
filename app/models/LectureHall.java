@@ -7,13 +7,15 @@ import play.data.validation.Constraints;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.LinkedHashMap;
+
 @Entity
 public class LectureHall extends Model {
     @Id
     private  Integer id;
     @Column(unique = true)
     @Constraints.Required
-    @Constraints.MinLength(3)
+    @Constraints.MinLength(2)
     private String room_name;
     private String block_name;
     private Integer capacity;
@@ -37,7 +39,7 @@ public class LectureHall extends Model {
         this.block_name = block_name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -54,4 +56,12 @@ public class LectureHall extends Model {
     }
 
     public static Finder<Integer,LectureHall> finder =new Finder<>(LectureHall.class);
+
+    public static LinkedHashMap<String,String> options(){
+        LinkedHashMap<String,String> options=new LinkedHashMap<>();
+        for(LectureHall lh:finder.all()){
+            options.put(""+lh.id,lh.block_name+"("+lh.room_name+"[max:"+lh.capacity+"])");
+        }
+        return options;
+    }
 }

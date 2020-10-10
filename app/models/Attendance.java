@@ -1,12 +1,10 @@
 package models;
 
 import java.util.List;
-import java.util.Random;
 import io.ebean.Finder;
 import io.ebean.Model;
-import org.hibernate.validator.constraints.CodePointLength;
-import org.w3c.dom.stylesheets.LinkStyle;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -20,6 +18,7 @@ public class Attendance extends Model {
     @ManyToOne
     private Student student;
 
+    private String er;
     public Attendance() {
     }
 

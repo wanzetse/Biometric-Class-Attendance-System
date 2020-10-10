@@ -74,13 +74,13 @@ public class Desktop extends Controller {
               FileInputStream fileInputStream=new FileInputStream(file);
               Files.copy(fileInputStream, Paths.get("fingers\\"+filename), StandardCopyOption.REPLACE_EXISTING);
               if(Student.findByFingerPrint(
-                      Student.fingerprintTemplate("fingers\\"+filename))==null){
-                  student.setFinger_id(filename);
+                      Student.fingerprintTemplate("fingers/"+filename))==null){
+                  student.setFinger_id("fingers/"+filename);
                   student.update();
                   return ok("Student Finger Print SaveD Successfully").withHeader("response","success");
 
               }else {
-                  File file1=new File("fingers\\"+filename);
+                  File file1=new File("fingers/"+filename);
                   file1.delete();
                   return ok("Finger Print Already Registered").withHeader("response","error");
 
@@ -124,7 +124,7 @@ public class Desktop extends Controller {
                i+=1;
                System.out.println(i+"\t"+student);
            }
-           if(i>=100){
+           if(i>=1000){
                break;
            }
 

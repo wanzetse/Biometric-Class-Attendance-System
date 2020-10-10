@@ -1,17 +1,15 @@
 package controllers;
 
-import com.google.common.io.Files;
-import com.machinezoo.sourceafis.FingerprintImage;
+import models.Attendance;
 import models.Student;
+import models.Unit;
 import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.MessagesApi;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-
 import javax.inject.Inject;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +84,44 @@ public class StudentsController extends Controller {
                 messagesApi.preferred(request),request));
 
     }
+
+
+
+
+    public static  Student studentFromEmail(String email){
+        Student student=Student.finder.query().where().ieq("email",email).findOne();
+        if(student==null){
+            student=new Student();
+        }
+        return student;
+    }
+    public static List<Unit> studentUnitList(Student student){
+
+        List<Unit> units=new ArrayList<>();
+        List<Attendance> attendances=Attendance.finder.all();
+        for(Attendance attendance:attendances){
+            if(student.equals(attendance.getStudent())){
+                Unit unit=attendance.getCls().getUnit();
+                if(!units.contains(unit)){
+                    units.add(unit);
+                }
+            }
+        }
+        return units;
+    }
+
+    public static List<Attendance> studentAttendances(Student student,Unit unit){
+        List<Attendance> attendances=new ArrayList<>();
+        for(Attendance attendance:Attendance.finder.all()){
+            if(student.equals(attendance.getStudent())){
+                if(unit.equals(attendance.getCls().getUnit())){
+                    attendances.add(attendance);
+                }
+            }
+        }
+        return  attendances;
+    }
+
+
 
 }

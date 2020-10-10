@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
+@(atts:java.util.List[Attendance])
+<table id="datas" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th data-sortable="true">Registration</th>
+            <th data-sortable="true">Name</th>
 
-</body>
-</html>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(att<-atts) {
+
+
+            <tr>
+                <td>@att.getStudent.getReg_no</td>
+                <td>@att.getStudent.fullName()</td>
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>

@@ -8,6 +8,7 @@ import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 @Constraints.Validate
 @Entity
@@ -19,9 +20,18 @@ public class Unit  extends Model implements Constraints.Validatable<List<Validat
     @Constraints.Required @Constraints.MinLength(5) private String name;
 
     @JsonIgnore @Constraints.Required @ManyToOne private Lecturer lecturer;
+    @OneToMany private List<Cls> classes;
 
     public Unit(){
 
+    }
+
+    public List<Cls> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Cls> classes) {
+        this.classes = classes;
     }
 
     public String getUnitCode() {
@@ -32,7 +42,7 @@ public class Unit  extends Model implements Constraints.Validatable<List<Validat
         this.unitCode = unitCode;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -83,5 +93,14 @@ public class Unit  extends Model implements Constraints.Validatable<List<Validat
         unit.setUnitCode(dms.getUnitCode());
         unit.setName("");
         return unit;
+    }
+
+    public static LinkedHashMap<String,String> lecUnitOptions(Integer lec_id){
+        LinkedHashMap<String,String> options=new LinkedHashMap<>();
+       Lecturer lecturer=Lecturer.finder.byId(lec_id);
+       for(Unit un:lecturer.getUnits()){
+           options.put(""+un.id,"("+un.unitCode+") "+un.name);
+       }
+       return options;
     }
 }

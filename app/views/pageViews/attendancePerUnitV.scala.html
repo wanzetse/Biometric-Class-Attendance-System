@@ -1,0 +1,4 @@
+@(titles:java.util.List[java.lang.String],user:User,attList:java.util.List[java.util.Map[String,String]])(implicit assetsFinder: AssetsFinder)
+@pageViews.pageContainer(titles, user ){
+    @tabledata.attendancePerUnit(attList)
+}

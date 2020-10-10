@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -31,31 +33,49 @@ public class AttendanceController extends Controller {
     }
 
     public CompletionStage<Result> attendClass(Http.Request request){
+
         try{
+
             File file=request.body().asRaw().asFile();
-            String filename=request.header("file-name").get();
+            String filename="fingers/"+request.header("file-name").get();
             FileInputStream fileInputStream=new FileInputStream(file);
-            String classId=request.header("class-id").get();
-            Files.copy(fileInputStream, Paths.get("fingers\\"+filename), StandardCopyOption.REPLACE_EXISTING);
-            Student student=Student.findByFingerPrint(Student.fingerprintTemplate("fingers\\"+filename));
+            String classId=request.header("class_id").get();
+            Files.copy(fileInputStream, Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
+            Student student=Student.findByFingerPrint(Student.fingerprintTemplate(filename));
             if(student==null) {
+                File file1=new File(filename);
+                file1.delete();
                 Result result=ok("Could Not Process Class Attendance\nFinger Not registered").withHeader("response","error");
+                
                 return  CompletableFuture.completedFuture(result);
             }
             Cls cls=Cls.finder.byId(Integer.parseInt(classId));
             if(cls==null){
+                File file1=new File(filename);
+                file1.delete();
+
                 Result result=ok("Class Not Found").withHeader("response","error");
                 return CompletableFuture.completedFuture(result);
 
             }
+            List<Attendance> attStudents=cls.attendanceList();
+            for(Attendance attendance:attStudents){
+                if(student.equals(attendance.getStudent())){
+                    Result result=ok("YOu Already Attended").withHeader("response","error");
+                    File file1=new File(filename);
+                    file1.delete();
+
+                    return CompletableFuture.completedFuture(result);
+                }
+            }
+
             Attendance attendance=new Attendance();
             attendance.setCls(cls);
             attendance.setStudent(student);
             attendance.save();
 
 
-            File file1=new File("fingers\\"+filename);
-            file1.delete();
+
             Result result=ok("Welcome\n"+student.getReg_no()).withHeader("response","success");
             return CompletableFuture.completedFuture(result);
         }catch(Exception e){

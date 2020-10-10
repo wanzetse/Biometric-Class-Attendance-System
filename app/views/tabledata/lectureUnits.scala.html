@@ -1,0 +1,47 @@
+@(units:java.util.List[Unit])
+<table id="datas" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th data-sortable="true">Name</th>
+            <th data-sortable="true">Code</th>
+            <th data-sortable="true">Classes</th>
+            <th data-sortable="true">Student Attendance</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+    @for(unit<-units) {
+
+
+        <tr>
+            <td>@unit.getName</td>
+            <td>@unit.getUnitCode</td>
+
+            <td>
+                <a href="@routes.LecturersController.classesPerUnit(unit.getLecturer.getId,unit.getId)">
+                @unit.getClasses.size()
+                </a>
+            </td>
+            <td>
+                <a href="@routes.LecturersController.attendancePerUnit(unit.getLecturer.getId,unit.getId)">
+
+                    Attendance Breakdown
+                </a>
+            </td>
+
+
+
+            @*            <td>*@
+            @*                <div class="btn-group">*@
+            @*                    <a class="btn btn-primary" href="@routes.HallsController.editHall(hall.getRoom_name)"><i class="icon_pencil-edit"></i></a>*@
+            @*                    <a class="btn btn-success" href="#"><i class="icon_info"></i></a>*@
+            @*                    <a class="btn btn-danger" href="#"><i class="icon_trash"></i></a>*@
+            @*                </div>*@
+            @*            </td>*@
+
+        </tr>
+    }
+
+    </tbody>
+</table>

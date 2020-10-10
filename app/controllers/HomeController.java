@@ -35,13 +35,27 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index(Http.Request request) {
-        List<String> titles=new ArrayList<>();
-        titles.add("Laikipia University Portal");
-        titles.add("Lectures");
-        titles.add("List Of All Lectures");
         User user=User.finder.query().where().ieq("username",request.session().get("user").orElse("")).findOne();
+        List<String> titles=new ArrayList<>();
+
+
         if(user==null){
             user=new User();
+        }
+
+        if(user.isAdmin()) {
+            titles.add("Laikipia University Staff Portal");
+            titles.add("Lectures");
+            titles.add("List Of All Lectures");
+        }else if(user.isLecturer()){
+            titles.add("Laikipia University");
+            titles.add("Assigned Units");
+            titles.add("List Of Assigned Units");
+        }
+        else if(user.isStudent()){
+            titles.add("Laikipia University Student Portal");
+            titles.add("Class Attendances");
+            titles.add("Units And Attendances");
         }
         return ok(
             index.render(

@@ -2,13 +2,13 @@
 <table id="datas" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th data-sortable="true">Unit</th>
+
             <th data-sortable="true">Date</th>
             <th data-sortable="true">Start Time</th>
             <th data-sortable="true">End Time</th>
             <th data-sortable="true">Hall</th>
             <th data-sortable="true">Attendance</th>
-               <th > Actions </th>
+            <th > Actions </th>
 
 
         </tr>
@@ -18,28 +18,27 @@
 
 
             <tr>
-                <td>@cls.getUnit.getUnitCode</td>
                 <td>@cls.getDate</td>
                 <td>@cls.getStart_time</td>
                 <td>@cls.getEnd_time</td>
                 <td>@cls.getLectureHall.getRoom_name</td>
                 <td>
                     <a href="@routes.LecturersController.attendancePerClass(cls.getLecturer().getId(),cls.getId())">
-                        @cls.attendanceList().size()
+                    @cls.attendanceList().size()
                     </a>
                 </td>
 
 
 
-                            <td>
-                                <div class="btn-group">
-                                    @if(cls.isOngoing) {
-                                        <a class="btn btn-danger" href="@routes.LecturersController.endClass(cls.getLecturer.getId,cls.getId)">
-                                            End Class
-                                        </a>
-                                    }
-                                </div>
-                           </td>
+                <td>
+                    <div class="btn-group">
+                    @if(cls.isOngoing) {
+                        <a  class="btn btn-danger" href="@routes.LecturersController.endClass(cls.getLecturer.getId,cls.getId)">
+                            End Class
+                        </a>
+                    }
+                    </div>
+                </td>
 
             </tr>
         }

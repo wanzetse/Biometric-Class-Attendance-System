@@ -1,0 +1,30 @@
+@(studentAtt:java.util.List[java.util.Map[String,String]])
+<table id="datas" class="table table-bordered table-striped"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Reg No </th>
+            <th data-sortable="true">Name</th>
+            <th data-sortable="true">Attended Classes</th>
+            <th data-sortable="true">Percentage Of Total</th>
+            <th data-sortable="true">Year </th>
+            <th > Actions </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(std<-studentAtt) {
+
+
+            <tr>
+                <td>@std.get("reg_no")</td>
+
+                <td>@std.get("name")</td>
+
+                <td>@std.get("classes")</td>
+                <td>@std.get("percentage")</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

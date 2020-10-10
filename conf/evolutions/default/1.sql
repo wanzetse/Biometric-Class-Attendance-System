@@ -7,6 +7,7 @@ create table attendance (
   id                            integer auto_increment not null,
   cls_id                        integer,
   student_id                    integer,
+  er                            varchar(255),
   constraint pk_attendance primary key (id)
 );
 

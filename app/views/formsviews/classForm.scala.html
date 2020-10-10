@@ -1,0 +1,43 @@
+@import views.html.helper.FieldConstructor
+@import helper._
+@(titles:java.util.List[String],classF:play.data.Form[forms.ClassCreateForm],user: User)(implicit assetsFinder: AssetsFinder,
+        messages: play.i18n.Messages,request: Http.Request)
+@implicitField=@{FieldConstructor(_fieldConstructor.render)}
+
+@formsviews.formContainer(titles,user){
+    @helper.form(action = routes.LecturersController.createClassFormP(LecturersController.lec_id(user.getEmail)),Symbol("class")->"form-horizontal") {
+        @helper.CSRF.formField
+        <div hidden="hidden">
+        @helper.inputText(classF("lecturer.id"),Symbol("type")->"number")
+        </div>
+        @helper.select(classF("lectureHall.id"),
+            options(LectureHall.options()),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Lecture Hall",
+            Symbol("_showConstraints")->false
+        )
+        @helper.select(classF("unit.id"),
+            options(Unit.lecUnitOptions(LecturersController.lec_id(user.getEmail))),
+            Symbol("class")->"form-control",
+            Symbol("_label")->"Unit",
+            Symbol("_showConstraints")->false
+        )
+        @helper.inputText(classF("duration"),
+            Symbol("class")->"form-control",
+            Symbol("type")->"number",
+            Symbol("step")->"0.5",
+            Symbol("min")->"0.5",
+            Symbol("max")->"3",
+            Symbol("_label")->"Duration In Hours",
+            Symbol("_showConstraints")->false
+        )
+
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button class="btn btn-success form-control" style="font-size: 16px;font-weight: bolder"
+                type="submit">S&nbsp;&nbsp; A &nbsp;&nbsp; V &nbsp; E </button>
+            </div>
+        </div>
+
+    }
+}

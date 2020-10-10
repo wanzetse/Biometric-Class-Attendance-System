@@ -119,8 +119,8 @@
                         <span class="menu-arrow arrow_carrot-right"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="fa fa-eye" href="@routes.HallsController.adminIndex()">View</a></li>
-                        <li><a class="fa fa-plus" href="@routes.HallsController.add_EditHall()">Create</a></li>
+                        <li><a class="fa fa-eye" href="@routes.LecturersController.classesIndex(LecturersController.lec_id(user.getEmail))">View</a></li>
+                        <li><a class="fa fa-plus" href="@routes.LecturersController.createClassForm(LecturersController.lec_id(user.getEmail))">Create</a></li>
                     </ul>
                 </li>
             }

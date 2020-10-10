@@ -10,10 +10,7 @@ import io.ebean.Model;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -41,11 +38,21 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
     @Column(nullable = true) private String finger_id;
     @JsonIgnore private FingerprintTemplate fingerprintTemplate;
 
+    @OneToMany private List<Attendance> attendances;
+
 
 
    public Student(){
 
    }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
 
     public int getId() {
         return id;
@@ -196,7 +203,7 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
          List<Student> studentList=new ArrayList<>();
          for(Student st:Student.finder.all()){
              if(st.getFinger_id()!=null){
-                 st.setFingerprintTemplate(fingerprintTemplate("fingers\\"+st.getFinger_id()));
+                 st.setFingerprintTemplate(fingerprintTemplate(st.getFinger_id()));
                  studentList.add(st);
 
              }
@@ -220,7 +227,7 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
 
      }catch (Exception e){
          System.out.println(e.getMessage());
-         return new Student();
+         return null;
      }
     }
 

@@ -28,7 +28,7 @@ PUT     /desktop/finger/attend/         controllers.AttendanceController.attendC
 
 # Start of Authentication urls
 GET     /account/register/admin/          controllers.AuthController.registerSystemAdmin(request:Request)
-GET     /account/register/user/          controllers.AuthController.registerUser(request:Request)
+GET     /account/register/user/           controllers.AuthController.registerUser(request:Request)
 POST     /account/register/user/          controllers.AuthController.registerUserP(request:Request)
 POST    /account/register/admin/          controllers.AuthController.adminRegister(request:Request)
 GET     /account/logout/                  controllers.AuthController.logout(request:Request)
@@ -42,6 +42,15 @@ POST    /account/login/                   controllers.AuthController.loginP(requ
 GET   /admin/lecturer/add/                 controllers.LecturersController.createLecturerForm(request :Request)
 GET   /admin/lecturer/edit/:lec_id/        controllers.LecturersController.editLecturerForm(request :Request,lec_id:String)
 POST  /admin/lecturer/add/                 controllers.LecturersController.lecturerFormP(request :Request)
+
+GET   /lecturer/:lid/endclass/:cl_id               controllers.LecturersController.endClass(lid:Integer,cl_id:Integer)
+GET   /lecturer/:id/current_class/          controllers.LecturersController.currentClass(request:Request,id:Integer)
+GET   /lecturer/:id/classes/                controllers.LecturersController.classesIndex(request:Request,id:Integer)
+GET   /lecturer/:id/class/create/           controllers.LecturersController.createClassForm(request:Request,id:Integer)
+POST  /lecturer/:id/class/create/           controllers.LecturersController.createClassFormP(request:Request,id:Integer)
+GET  /lecturer/:lid/class/:cid/attendances/ controllers.LecturersController.attendancePerClass(request:Request,lid:Integer,cid:Integer)
+GET   /lecturer/:lid/unit/:uid/classes/     controllers.LecturersController.classesPerUnit(request:Request,lid:Integer,uid:Integer)
+GET   /lecturer/:lid/unit/:uid/attendances/ controllers.LecturersController.attendancePerUnit(request:Request,lid:Integer,uid:Integer)
 
 # End Of Lecturer urls
 

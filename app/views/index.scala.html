@@ -33,7 +33,7 @@
   @tabledata.lecturersdata(Lecturer.finder.all())
 }
                 @if(user.isLecturer){
-
+                    @tabledata.lectureUnits(LecturersController.unitList(user.getEmail))
                 }
 
                 @if(user.isStudent){
