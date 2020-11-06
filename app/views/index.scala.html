@@ -37,7 +37,7 @@
                 }
 
                 @if(user.isStudent){
-
+                    @tabledata.studentUnits(StudentsController.studentFromEmail(user.getEmail))
                 }
             </section>
           </div>

@@ -33,6 +33,8 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
 
     @Constraints.Email @Constraints.Required private String email;
     @Constraints.Required private String phone;
+    @ManyToOne
+    private User user;
 
     @JsonIgnore @ManyToOne @Column(nullable = true) private Course course;
     @Column(nullable = true) private String finger_id;
@@ -142,7 +144,7 @@ public class Student extends Model implements Constraints.Validatable<List<Valid
         this.fingerprintTemplate = fingerprintTemplate;
     }
 
-    public String fullName(){
+    public String fullName() {
         String fname= first_name != null ?first_name:"";
         String sname=sur_name != null ?sur_name:"";
         String lname=last_name!=null ?last_name:"";

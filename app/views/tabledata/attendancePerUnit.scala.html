@@ -5,10 +5,10 @@
         <tr>
             <th data-sortable="true">Reg No </th>
             <th data-sortable="true">Name</th>
+            <th data-sortable="true">Total Classes</th>
             <th data-sortable="true">Attended Classes</th>
             <th data-sortable="true">Percentage Of Total</th>
-            <th data-sortable="true">Year </th>
-            <th > Actions </th>
+            <th data-sortable="true">Score</th>
 
         </tr>
     </thead>
@@ -22,7 +22,10 @@
                 <td>@std.get("name")</td>
 
                 <td>@std.get("classes")</td>
-                <td>@std.get("percentage")</td>
+                <td>@std.get("attended")</td>
+                <td>@std.get("percentage") %</td>
+                <td>@StudentsController.pass_or_fail(Integer.parseInt(std.get("percentage") ))</td>
+
             </tr>
         }
 

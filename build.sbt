@@ -2,7 +2,7 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayJava,PlayEbean)
   .settings(
     name := """fingerWeb""",
-    version := "1.0-fingerWebT",
+    version := "1.0",
     scalaVersion := "2.13.1",
     libraryDependencies ++= Seq(
       guice,

@@ -63,7 +63,7 @@ public class LecturersController extends Controller {
         }else{
             lecturer.save();
         }
-        return redirect(routes.LecturersController.createLecturerForm());
+        return redirect(routes.HallsController.adminIndex());
     }
 
     public Result editLecturerForm(Http.Request request,String work_Id){
@@ -95,7 +95,8 @@ public class LecturersController extends Controller {
               String response=cl.getUnit().getUnitCode()+"\n" +
                       cl.getLectureHall().getRoom_name()+"\n" +
                       cl.attendanceList().size()+"\n" +
-                      cl.getStart_time();
+                      cl.getStart_time()+"\nBy " +cl.getLecturer().getTitle()+" "+
+                      cl.getLecturer().fullName();
               return CompletableFuture.completedFuture(ok(response).withHeader("class-id",cl.getId()+""));
           }
 
@@ -259,14 +260,15 @@ public class LecturersController extends Controller {
             }
         }
 
-        titles.add(attendingStudents.size()+ " Studnets Were In Attendance");
+        titles.add(attendingStudents.size()+ " Students Were In Attendance");
 
         for(Student student:attendingStudents){
             Map<String,String> data=new HashMap<>();
             data.put("name",student.fullName());
             data.put("reg_no",student.getReg_no());
             data.put("classes",thisYearList.size()+"");
-            data.put("percentage",""+percentage(student,thisYearList));
+            data.put("percentage",""+percentage(student,thisYearList)[1]);
+            data.put("attended",""+percentage(student,thisYearList)[0]);
             atMaps.add(data);
         }
 
@@ -300,15 +302,23 @@ public static Integer lec_id(String email){
     Lecturer lecturer=Lecturer.finder.query().where().ieq("email",email).findOne();
     return lecturer.getId();
 }
- public static int percentage(Student st,List<Cls> clsList){
+ public static int[] percentage(Student st,List<Cls> clsList){
+        int[] newInts=new int[2];
         List<Attendance> attendances=new ArrayList<>();
         for(Cls cl:clsList){
-          Attendance attendance=Attendance.finder.query().where().eq("student",st).findOne();
-          attendances.add(attendance);
+          Attendance attendance=Attendance.finder.query().where().eq("student",st).eq("cls",cl).findOne();
+          if (attendance!=null&&!attendances.contains(attendance)){
+              attendances.add(attendance);
+          }
 
         }
-        int percentage= (int) ((attendances.size()/clsList.size())*100.00);
-        return percentage;
+        double ats=attendances.size();
+        newInts[0]= (int) ats;
+        double clsIze=clsList.size();
+
+        double percent= (ats/clsIze)*100.0;
+     newInts[1]= (int) percent;
+        return newInts;
  }
 
 }

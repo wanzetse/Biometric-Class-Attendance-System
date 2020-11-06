@@ -7,7 +7,6 @@ create table attendance (
   id                            integer auto_increment not null,
   cls_id                        integer,
   student_id                    integer,
-  er                            varchar(255),
   constraint pk_attendance primary key (id)
 );
 
@@ -43,6 +42,7 @@ create table lecturer (
   last_name                     varchar(255),
   email                         varchar(255),
   department_head               tinyint(1) default 0 not null,
+  user_id                       integer,
   department_id                 integer,
   phone                         varchar(255),
   title                         varchar(255),
@@ -60,6 +60,7 @@ create table student (
   year                          integer not null,
   email                         varchar(255),
   phone                         varchar(255),
+  user_id                       integer,
   course_id                     integer,
   finger_id                     varchar(255),
   constraint uq_student_reg_no unique (reg_no),
@@ -106,8 +107,14 @@ alter table attendance add constraint fk_attendance_cls_id foreign key (cls_id) 
 create index ix_attendance_student_id on attendance (student_id);
 alter table attendance add constraint fk_attendance_student_id foreign key (student_id) references student (id) on delete restrict on update restrict;
 
+create index ix_lecturer_user_id on lecturer (user_id);
+alter table lecturer add constraint fk_lecturer_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+
 create index ix_lecturer_department_id on lecturer (department_id);
 alter table lecturer add constraint fk_lecturer_department_id foreign key (department_id) references department (id) on delete restrict on update restrict;
+
+create index ix_student_user_id on student (user_id);
+alter table student add constraint fk_student_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 
 create index ix_student_course_id on student (course_id);
 alter table student add constraint fk_student_course_id foreign key (course_id) references course (id) on delete restrict on update restrict;
@@ -133,8 +140,14 @@ drop index ix_attendance_cls_id on attendance;
 alter table attendance drop foreign key fk_attendance_student_id;
 drop index ix_attendance_student_id on attendance;
 
+alter table lecturer drop foreign key fk_lecturer_user_id;
+drop index ix_lecturer_user_id on lecturer;
+
 alter table lecturer drop foreign key fk_lecturer_department_id;
 drop index ix_lecturer_department_id on lecturer;
+
+alter table student drop foreign key fk_student_user_id;
+drop index ix_student_user_id on student;
 
 alter table student drop foreign key fk_student_course_id;
 drop index ix_student_course_id on student;

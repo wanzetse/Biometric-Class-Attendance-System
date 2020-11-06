@@ -61,7 +61,7 @@ public class AttendanceController extends Controller {
             List<Attendance> attStudents=cls.attendanceList();
             for(Attendance attendance:attStudents){
                 if(student.equals(attendance.getStudent())){
-                    Result result=ok("YOu Already Attended").withHeader("response","error");
+                    Result result=ok("YOu Already Signed in").withHeader("response","error");
                     File file1=new File(filename);
                     file1.delete();
 
@@ -76,7 +76,7 @@ public class AttendanceController extends Controller {
 
 
 
-            Result result=ok("Welcome\n"+student.getReg_no()).withHeader("response","success");
+            Result result=ok("Welcome\n"+student.toString()).withHeader("response","success");
             return CompletableFuture.completedFuture(result);
         }catch(Exception e){
             e.printStackTrace();

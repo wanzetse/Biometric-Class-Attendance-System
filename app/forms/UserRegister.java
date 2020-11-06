@@ -102,6 +102,9 @@ public class UserRegister implements Constraints.Validatable<List<ValidationErro
                 errors.add(new ValidationError("user_id","No Such Student Reg number"));
 
             }
+            if (!student1.equals(student)){
+                errors.add(new ValidationError("user_id","No matching Records For Email And Reg"));
+            }
         }
         if(destination.equals("staff")){
             Lecturer lecturer=Lecturer.finder.query().where().ieq("email",email).findOne();
@@ -112,6 +115,8 @@ public class UserRegister implements Constraints.Validatable<List<ValidationErro
             if(lecturer1==null){
                 errors.add(new ValidationError("user_id","No Such Staff Id"));
             }
+            if(!lecturer.equals(lecturer1)){
+                errors.add(new ValidationError("user_id","No matching Records For Email And Staff Id")); }
         }
 
 
@@ -125,5 +130,4 @@ public class UserRegister implements Constraints.Validatable<List<ValidationErro
         }
         return errors;
     }
-//    public Li
 }

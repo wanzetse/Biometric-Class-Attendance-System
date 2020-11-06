@@ -17,8 +17,6 @@ public class Attendance extends Model {
     private Cls cls;
     @ManyToOne
     private Student student;
-
-    private String er;
     public Attendance() {
     }
 

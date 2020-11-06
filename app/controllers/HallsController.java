@@ -69,7 +69,7 @@ public class HallsController extends Controller {
         }else{
             lectureHall.update();
         }
-        return redirect(routes.HallsController.add_EditHall());
+        return redirect(routes.HallsController.adminIndex());
     }
 
     public Result editHall(Http.Request request,String h_name){

@@ -70,7 +70,7 @@ public class UnitsController extends Controller {
         }
         Map<String,String> flash=new HashMap<>();
         flash.put("success","Unit Saved Successfully");
-        return redirect(routes.UnitsController.add_EditUnit()).withFlash(flash);
+        return redirect(routes.UnitsController.adminIndex()).withFlash(flash);
 
     }
 

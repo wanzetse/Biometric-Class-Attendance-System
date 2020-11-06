@@ -1,0 +1,37 @@
+@(student:Student)
+
+<table id="datas" class="table table-bordered table-striped"
+>
+    <thead>
+        <tr>
+            <th data-sortable="true">Unit Code</th>
+            <th data-sortable="true">Unit Name</th>
+            <th data-sortable="true">Lecturer</th>
+            <th data-sortable="true">Classes</th>
+            <th data-sortable="true">Attended</th>
+            <th data-sortable="true">Percentage(%)</th>
+            <th data-sortable="true">Score</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @for(un<-StudentsController.studentUnitList(student)) {
+
+
+            <tr>
+                <td>@un.getUnitCode </td>
+                <td>@un.getName</td>
+                <td>@un.getLecturer.getTitle @un.getLecturer.fullName()</td>
+                <td>@StudentsController.clsList(un).size()</td>
+                <td>@StudentsController.studentAttendances(student,un).size()</td>
+                <td>@StudentsController.percentage(un,StudentsController.studentAttendances(student,un),student) % </td>
+                <td>@StudentsController.pass_or_fail(StudentsController.percentage(un,StudentsController.studentAttendances(student,un),student))</td>
+
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>

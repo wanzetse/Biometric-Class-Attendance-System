@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Attendance;
+import models.Cls;
 import models.Student;
 import models.Unit;
 import play.data.Form;
@@ -64,7 +65,7 @@ public class StudentsController extends Controller {
         }else {
             student.save();
         }
-        return redirect(routes.StudentsController.add_EditStudent());
+        return redirect(routes.StudentsController.adminIndex());
     }
 
     public Result editStudent(Http.Request request,String regno){
@@ -90,9 +91,9 @@ public class StudentsController extends Controller {
 
     public static  Student studentFromEmail(String email){
         Student student=Student.finder.query().where().ieq("email",email).findOne();
-        if(student==null){
-            student=new Student();
-        }
+        System.out.println(student.getEmail());
+        System.out.println(student.getReg_no());
+
         return student;
     }
     public static List<Unit> studentUnitList(Student student){
@@ -102,6 +103,7 @@ public class StudentsController extends Controller {
         for(Attendance attendance:attendances){
             if(student.equals(attendance.getStudent())){
                 Unit unit=attendance.getCls().getUnit();
+                System.out.println("Found something");
                 if(!units.contains(unit)){
                     units.add(unit);
                 }
@@ -122,6 +124,32 @@ public class StudentsController extends Controller {
         return  attendances;
     }
 
+    public static List<Cls> clsList(Unit unit){
+        List<Cls> clsList=unit.getClasses();
+        return clsList;
+    }
+    public static  int percentage(Unit unit,List<Attendance> attendances,Student student){
+        double per1=unit.getClasses().size();
 
+        List<Attendance> attendances1=new ArrayList<>();
+        for (Attendance attendance:attendances){
+            if(attendance.getCls().getUnit().equals(unit)){
+                attendances1.add(attendance);
+            }
+        }
+        double per_2=attendances1.size();
+        double p=(per_2/per1)*100.0;
+        return (int) p;
+
+    }
+
+
+public static String pass_or_fail(int per){
+
+        if(per>=75){
+            return "Passed";
+        }
+        return "Failed";
+}
 
 }

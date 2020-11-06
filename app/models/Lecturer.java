@@ -28,6 +28,9 @@ public class Lecturer extends Model implements Constraints.Validatable<List<Vali
 
     private boolean departmentHead;
 
+     @ManyToOne
+    private User user;
+
     @JsonIgnore  @ManyToOne private Department department;
 
     @Constraints.MinLength(10) @Constraints.MaxLength(14) private String phone;
@@ -37,6 +40,7 @@ public class Lecturer extends Model implements Constraints.Validatable<List<Vali
     @JsonIgnore  @OneToMany private List<Unit> units;
 
     @JsonIgnore @OneToMany private List<Cls> clsList;
+
 
     public Lecturer() {
     }

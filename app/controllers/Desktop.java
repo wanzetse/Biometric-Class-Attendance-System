@@ -66,21 +66,21 @@ public class Desktop extends Controller {
 
       try {
           File file=request.body().asRaw().asFile();
-          String filename=request.header("file-name").get();
+          String filename="fingers/"+request.header("file-name").get();
           String student_reg=request.header("student").get();
 
 
               Student student =Student.finder.query().where().ieq("reg_no",student_reg).findOne();
               FileInputStream fileInputStream=new FileInputStream(file);
-              Files.copy(fileInputStream, Paths.get("fingers\\"+filename), StandardCopyOption.REPLACE_EXISTING);
+              Files.copy(fileInputStream, Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
               if(Student.findByFingerPrint(
-                      Student.fingerprintTemplate("fingers/"+filename))==null){
-                  student.setFinger_id("fingers/"+filename);
+                      Student.fingerprintTemplate(filename))==null){
+                  student.setFinger_id(filename);
                   student.update();
                   return ok("Student Finger Print SaveD Successfully").withHeader("response","success");
 
               }else {
-                  File file1=new File("fingers/"+filename);
+                  File file1=new File(filename);
                   file1.delete();
                   return ok("Finger Print Already Registered").withHeader("response","error");
 

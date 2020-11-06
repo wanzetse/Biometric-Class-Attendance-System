@@ -69,7 +69,7 @@ public class CourseController extends Controller {
             course.update();
         }
 
-        return redirect(routes.CourseController.add_EditCourse());
+        return redirect(routes.CourseController.adminIndex());
     }
 
     public Result editCourse(Http.Request request,String courseInitials){
